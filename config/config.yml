@@ -1,0 +1,6 @@
+# config/config.yml
+
+mode: dev
+logging:
+  level: DEBUG
+ 
