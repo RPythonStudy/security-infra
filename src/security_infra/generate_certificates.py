@@ -14,6 +14,7 @@ SERVICE_CERT_PATHS = {
     "vault": PROJECT_ROOT / "docker/vault/certs",
     "elk": PROJECT_ROOT / "docker/elk/certs",
     "keycloak": PROJECT_ROOT / "docker/keycloak/certs",
+    "bitwarden": PROJECT_ROOT / "docker/bitwarden/certs",   # [추가]
 }
 
 DEFAULT_CERT_DAYS = 730

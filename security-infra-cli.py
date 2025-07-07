@@ -17,7 +17,9 @@ from security_infra.config_loader import load_config, get_mode, get_log_level
 from security_infra.create_directories import create_directories
 from security_infra.generate_certificates import generate_certificates
 from security_infra.sync_templates import sync_templates
+from security_infra.set_permissions import set_permissions
 from security_infra.compose_manager import compose_command
+from security_infra.auto_unseal import auto_unseal
 
 
 app = typer.Typer()
@@ -123,7 +125,22 @@ def sync_templates_cmd():
     summary = sync_templates(logger=logger.info)
     typer.echo(summary)
     
- 
+@app.command("set-permissions")
+def set_permissions_cmd(
+    services: List[str] = typer.Option(
+        None,
+        "--services",
+        "-s",
+        help="권한을 변경할 서비스명(예: vault, elk, keycloak, bitwarden, openldap), 여러 개 반복 지정 가능",
+        show_default=False,
+    )
+):
+    """
+    서비스별 볼륨/인증서 디렉토리 권한을 일괄 변경
+    (ELK, Vault, Bitwarden 등, 필요시 --services로 개별 선택)
+    """
+    summary = set_permissions(services, logger=print)
+    typer.echo(summary) 
 
 @app.command("compose")
 def compose_cmd(
@@ -143,6 +160,15 @@ def compose_cmd(
 
     
 
+@app.command("auto-unseal")
+def auto_unseal_cmd(
+    bw_item: str = typer.Option("vault unseal key - desktop", help="Bitwarden 항목명"),
+    vault_addr: str = typer.Option("https://127.0.0.1:8200", help="Vault API 주소")
+):
+    """
+    Bitwarden에서 Unseal Key를 자동으로 추출해 Vault 언실 처리
+    """
+    auto_unseal(bw_item=bw_item, vault_addr=vault_addr, logger=print)
 
 if __name__ == "__main__":
     app()

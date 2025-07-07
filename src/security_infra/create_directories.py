@@ -1,5 +1,3 @@
-# src/security_infra/create_directories.py
-
 import os
 import shutil
 import subprocess
@@ -31,6 +29,8 @@ def create_directories(
         "docker/vault/logs",
         "docker/openldap/data",
         "docker/openldap/config",
+        "docker/bitwarden/bw-data",   # Bitwarden 데이터 볼륨
+        "docker/bitwarden/certs",    # Bitwarden 인증서 디렉토리
     ]
     created, skipped, errors, sudo_failed = [], [], [], []
     user = getpass.getuser()
