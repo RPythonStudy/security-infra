@@ -90,6 +90,11 @@ sudo visudo /etc/sudoers.d.docker
 sudo -n docker ps
 ```
 
+#### Bitwarden server 도커 컨테이너 설치
+https://github.com/bitwarden/server#building
+- DNS 설정은 패스
+- Docker와 Docker Compose가 설치는 이미 되어 있어야 합니다.
+- Bitwarden 서버를 설치하기 위해 아래 명령어를 실행합니다.
 
 
 #### Docker 서비스 컨트롤
@@ -106,3 +111,23 @@ python security-infra-cli.py compose restart --service elk
 sudo docker exec -it vault vault operator init -key-shares=5 -key-threshold=3
 ```
 Unseal Key 1 ~5 까지를 Bitwarden에 안전하게 보관
+
+#### 개인정보보호를 위한 역할분담 예시
+
+1. Vault Unseal Key Keeper 역할 분장 설계
+
+| Vault 내 역할명     | 계정ID         | 이메일                                                           | 역할설명                | Unseal Key 보관 | 비고 |
+| --------------- | ------------ | ------------------------------------------------------------- | ------------------- | ------------- | -- |
+| 볼트 최고관리자        | vault-root   | [vault-root@rpython.stdy](mailto:vault-root@rpython.stdy)     | Vault Root 권한       | 1번            |    |
+| 볼트 운영자          | vault-ops    | [vault-ops@rpython.stdy](mailto:vault-ops@rpython.stdy)       | Vault 차기운영/복구 권한    | 2번            |    |
+| 가명화정보담당자        | pseudo-info  | [pseudo-info@rpython.stdy](mailto:pseudo-info@rpython.stdy)   | 가명화 정보 총괄           | 3번            |    |
+| pseudonymee 책임자 | pseudo-chief | [pseudo-chief@rpython.stdy](mailto:pseudo-chief@rpython.stdy) | pseudonymee 프로젝트 책임 | 4번            |    |
+| pseudonymee 운영자 | pseudo-ops   | [pseudo-ops@rpython.stdy](mailto:pseudo-ops@rpython.stdy)     | pseudonymee 운영/일상관리 | 5번            |    |
+
+2. Bitwarden/LDAP/서버 최고관리자 역할 분리 설계
+
+| 시스템구분           | 계정ID        | 이메일                                                         | 역할설명                 | 비고    |
+| --------------- | ----------- | ----------------------------------------------------------- | -------------------- | ----- |
+| Bitwarden 최고관리자 | bw-admin    | [bw-admin@rpython.stdy](mailto:bw-admin@rpython.stdy)       | Bitwarden Root/Owner | 별도 보관 |
+| LDAP 최고관리자      | ldap-admin  | [ldap-admin@rpython.stdy](mailto:ldap-admin@rpython.stdy)   | OpenLDAP 최고권한        | 별도 보관 |
+| 서버(공통) 관리자      | infra-admin | [infra-admin@rpython.stdy](mailto:infra-admin@rpython.stdy) | 서버/OS/컨테이너 등 총괄      | 별도 보관 |

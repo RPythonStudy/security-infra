@@ -80,19 +80,19 @@ services:
     networks:
       - backend
 
-  bitwarden:
-    image: ghcr.io/bitwarden/self-host:latest
-    container_name: bitwarden
-    restart: unless-stopped
-    ports:
-      - "8080:80"
-    volumes:
-      - ./docker/bitwarden/bw-data:/data
-      - /etc/localtime:/etc/localtime:ro
-      - /usr/share/zoneinfo:/usr/share/zoneinfo:ro
-    environment:
-      ADMIN_TOKEN: "A_VERY_LONG_RANDOM_STRING_32CHARS"
-      TZ: Asia/Seoul
+  # bitwarden:
+  #   image: ghcr.io/bitwarden/self-host:latest
+  #   container_name: bitwarden
+  #   restart: unless-stopped
+  #   ports:
+  #     - "8080:80"
+  #   volumes:
+  #     - ./docker/bitwarden/bw-data:/data
+  #     - /etc/localtime:/etc/localtime:ro
+  #     - /usr/share/zoneinfo:/usr/share/zoneinfo:ro
+  #   environment:
+  #     ADMIN_TOKEN: "A_VERY_LONG_RANDOM_STRING_32CHARS"
+  #     TZ: Asia/Seoul
 
   vault:
     image: hashicorp/vault:latest
