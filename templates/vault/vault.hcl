@@ -1,3 +1,6 @@
+log_level = "trace"
+
+
 storage "file" {
   path = "/vault/file"
 }
@@ -7,3 +10,5 @@ listener "tcp" {
   tls_key_file  = "/vault/certs/vault.key"
   tls_disable   = 0
 }
+
+disable_mlock = true

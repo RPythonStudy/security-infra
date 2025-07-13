@@ -1,5 +1,3 @@
-version: "3.7"
-
 services:
   api:
     user: "1001:1001"
@@ -16,10 +14,4 @@ services:
   notifications:
     user: "1001:1001"
   attachments:
-    user: "1001:1001"
-  icons:
-    user: "1001:1001"
-  mssql:
-    user: "1001:1001"
-  nginx:
     user: "1001:1001"
